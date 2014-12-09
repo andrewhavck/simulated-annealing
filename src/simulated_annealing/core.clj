@@ -72,10 +72,10 @@
 			  		  (recur new-tour new-temp)
 			  		  (recur best-tour new-temp)))))]
 
-		  (println (str "Initial tour distance: " (total-distance initial-tour)))
+		  (println (str "Initial tour distance: " (pretty-decimal (total-distance initial-tour))))
 		  (println (str "Tour: " (apply str (map to-string (:cities initial-tour)))))
 		  (println)
 
-		  (println (str "Optimal tour distance: " (total-distance optimal-tour)))
+		  (println (str "Optimal tour distance: " (pretty-decimal (total-distance optimal-tour))))
 		  (println (str "Tour: " (apply str (map to-string (:cities optimal-tour)))))
 	))
