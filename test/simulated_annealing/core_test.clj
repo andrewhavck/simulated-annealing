@@ -21,8 +21,8 @@
 
 (fact "Calculates the distance between two cities"
 	(let [city1 (City. 140 98)
-		  city2 (City. 34 87)]
-		 (round (distance-to city1 city2) 2) => 106.56))
+		city2 (City. 34 87)]
+		(round (distance-to city1 city2) 2) => 106.56))
 
 (fact "Prints a cities coordinates"
 	(to-string (City. 140 98)) => "(140.00, 98.00)")
@@ -44,10 +44,10 @@
 
 (fact "Returns the total tour size"
 	(let [city1 (City. 140 98)
-		  city2 (City. 34 87)
-		  city3 (City. 78 190)
-		  cities [city1 city2 city3]]
-		  (round (total-distance (Tour. cities)) 2) => 329.51))
+		city2 (City. 34 87)
+		city3 (City. 78 190)
+		cities [city1 city2 city3]]
+		(round (total-distance (Tour. cities)) 2) => 329.51))
 
 (fact "Formats decimal string"
 	(pretty-decimal 20.312) => "20.31")

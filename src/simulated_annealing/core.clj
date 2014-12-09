@@ -17,20 +17,20 @@
 	Point
 	(distance-to [this city] 
 		(let [xdist (abs-diff (:x this) (:x city))
-			  ydist (abs-diff (:y this) (:y city))]
-			  (Math/sqrt (+ (* xdist xdist) (* ydist ydist)))))
+			ydist (abs-diff (:y this) (:y city))]
+			(Math/sqrt (+ (* xdist xdist) (* ydist ydist)))))
 	(to-string [this] (str "(" (pretty-decimal (:x this)) ", " (pretty-decimal (:y this)) ")")))
 	
 (defrecord Tour [cities]
 	PointCollection
 	(total-distance [this]
 		(let [cities (:cities this)
-			  final (distance-to (first cities) (last cities))]
-			  (loop [curr cities distances '()]
-			  	(if (empty? (rest curr))
-			  		(reduce + (conj distances final))
-			  	(recur (rest curr) (conj distances (distance-to (first curr) (second curr))))
-			  	)))))
+			final (distance-to (first cities) (last cities))]
+			(loop [curr cities distances '()]
+				(if (empty? (rest curr))
+					(reduce + (conj distances final))
+					(recur (rest curr) (conj distances (distance-to (first curr) (second curr))))
+					)))))
 
 (defn random-dec [limit] (* (Math/random) limit))
 
@@ -44,7 +44,7 @@
 
 (defn swap [coll pos1 pos2]
 	(let [item1 (nth coll pos1)
-		  item2 (nth coll pos2)]
+		item2 (nth coll pos2)]
 		 (assoc (assoc coll pos1 item2) pos2 item1)))
 
 (defn acceptance [e new-e temp]
@@ -55,18 +55,18 @@
 
 (defn -main [& args]
 	(let [tour-size 20
-		  initial-tour (random-tour tour-size)
-		  cooling 0.003
-		  optimal-tour
-		  (loop  [best-tour initial-tour
-				  temp 10000]
-		  	(let [pos1 (random-int tour-size)
-		  		  pos2 (random-int tour-size)
-		  		  new-temp (* temp (- 1 cooling))
-		  		  new-tour (Tour. (swap (:cities best-tour) pos1 pos2))]
+		initial-tour (random-tour tour-size)
+		cooling 0.003
+		optimal-tour
+		(loop  [best-tour initial-tour
+			temp 10000]
+			(let [pos1 (random-int tour-size)
+				pos2 (random-int tour-size)
+				new-temp (* temp (- 1 cooling))
+				new-tour (Tour. (swap (:cities best-tour) pos1 pos2))]
 
-		  		  (if (> 1 temp)
-		  		  	best-tour
+				(if (> 1 temp)
+					best-tour
 
 			  		(if (> (acceptance (total-distance best-tour) (total-distance new-tour) temp) (Math/random))
 			  		  (recur new-tour new-temp)
