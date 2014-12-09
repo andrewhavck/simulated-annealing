@@ -5,6 +5,8 @@
 (declare abs-diff)
 (declare gen-city)
 (declare pretty-decimal)
+(declare distance-memo)
+(declare distance)
 
 (defprotocol Point
 	(distance-to [this city])
@@ -15,10 +17,7 @@
 
 (defrecord City [x y]
 	Point
-	(distance-to [this city] 
-		(let [xdist (abs-diff (:x this) (:x city))
-			ydist (abs-diff (:y this) (:y city))]
-			(Math/sqrt (+ (* xdist xdist) (* ydist ydist)))))
+	(distance-to [this city] (distance-memo this city))
 	(to-string [this] (str "(" (pretty-decimal (:x this)) ", " (pretty-decimal (:y this)) ")")))
 	
 (defrecord Tour [cities]
@@ -31,6 +30,13 @@
 					(reduce + (conj distances final))
 					(recur (rest curr) (conj distances (distance-to (first curr) (second curr))))
 					)))))
+
+(defn distance [pt1 pt2]
+	(let [xdist (abs-diff (:x pt1) (:x pt2))
+		ydist (abs-diff (:y pt1) (:y pt2))]
+	      (Math/sqrt (+ (* xdist xdist) (* ydist ydist)))))
+
+(def distance-memo (memoize distance))
 
 (defn random-dec [limit] (* (Math/random) limit))
 
@@ -54,7 +60,7 @@
 (defn random-tour [number-of-cities] (Tour. (vec (take number-of-cities (repeatedly #(gen-city))))))
 
 (defn -main [& args]
-	(let [tour-size 20
+	(let [tour-size 100
 		initial-tour (random-tour tour-size)
 		cooling 0.003
 		optimal-tour

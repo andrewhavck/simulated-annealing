@@ -1,6 +1,6 @@
 # simulated-annealing
 
-A simple demonstration of simulated annealing applied to the traveling salesman problem in Clojure. 
+A simple demonstration of simulated annealing applied to the traveling salesman problem in Clojure. This code is by no means pretty and was created as a learning experience.
 
 Project heavily based off [this tutorial](http://www.theprojectspot.com/tutorial-post/simulated-annealing-algorithm-for-beginners/6) with examples in Java.
 
